@@ -82,7 +82,7 @@ Training pairs are constructed as:
 
 ---
 
-## 📊 Results
+##  Results
 
 ### FactKG — Fact Verification
 
