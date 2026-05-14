@@ -1,0 +1,68 @@
+# ============================================================
+# KG-Flan Configuration
+# All hyperparameters and paths in one place.
+# ============================================================
+
+# ── Model ────────────────────────────────────────────────────
+model:
+  llm_name: "google/flan-t5-xl"          # 3B params, float16, ~6 GB VRAM
+  llm_dtype: "float16"
+  sentence_encoder: "all-MiniLM-L6-v2"  # 22M params, 384-dim embeddings
+  max_new_tokens: 128
+  device: "cuda"                          # "cpu" for local testing
+
+# ── MLP Relation Scorer ───────────────────────────────────────
+scorer:
+  input_dim: 384
+  hidden_dims: [256, 64]
+  dropout: 0.3
+  output_dim: 1
+  activation: "relu"
+
+# ── Training ─────────────────────────────────────────────────
+training:
+  optimizer: "adam"
+  learning_rate: 1.0e-3
+  batch_size: 64
+  epochs: 10
+  neg_pos_ratio: 2          # 2 negative samples per positive
+  seed: 42
+  val_split: 0.15
+
+# ── FactKG ───────────────────────────────────────────────────
+factkg:
+  train_path: "data/factkg/factkg_train.json"
+  test_path: "data/factkg/factkg_test.json"
+  dbpedia_path: "data/factkg/dbpedia_2015_undirected.json"
+  top_k_relations: 5
+  n_test_samples: 500
+  scorer_ckpt: "checkpoints/factkg_scorer.pt"
+  # Positive training pairs (approx)
+  n_training_pairs: 11000
+
+# ── MetaQA ───────────────────────────────────────────────────
+metaqa:
+  kb_path: "data/metaqa/kb.txt"
+  qa_1hop_test: "data/metaqa/1-hop/qa_test.txt"
+  qa_2hop_test: "data/metaqa/2-hop/qa_test.txt"
+  qa_3hop_test: "data/metaqa/3-hop/qa_test.txt"
+  top_k_relations: 3
+  n_test_samples: 500
+  scorer_ckpt: "checkpoints/metaqa_scorer.pt"
+  n_relations: 9             # MetaQA has only 9 distinct relations
+  n_training_pairs: 11436
+
+# ── Inference ─────────────────────────────────────────────────
+inference:
+  # Number of few-shot examples in LLM prompts (0 = zero-shot)
+  n_shot: 0
+  # For 3-hop MetaQA: fallback to direct KB traversal (no LLM)
+  use_kb_traversal_for_3hop: true
+  # Precision of Flan-T5-XL inference (~4 sec/sample on T4)
+  batch_size: 1
+
+# ── Logging ──────────────────────────────────────────────────
+logging:
+  results_dir: "results/"
+  checkpoint_dir: "checkpoints/"
+  log_every_n_steps: 50
