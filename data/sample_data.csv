@@ -1,1 +1,11 @@
-
+claim,entity_set,label,evidence_relations,dataset
+"The Dark Knight was directed by Christopher Nolan.","['The_Dark_Knight', 'Christopher_Nolan']",True,"['director']",factkg
+"Inception was released in the year 2010.","['Inception']",True,"['release_year']",factkg
+"Brad Pitt starred in the movie Fight Club.","['Brad_Pitt', 'Fight_Club']",True,"['starring']",factkg
+"The Eiffel Tower is located in London.","['Eiffel_Tower', 'London']",False,"['location']",factkg
+"Albert Einstein was born in Germany.","['Albert_Einstein', 'Germany']",True,"['birthPlace']",factkg
+"Who directed [The Dark Knight]?","['The_Dark_Knight']",Christopher Nolan,"['directed_by']",metaqa_1hop
+"What genre is [Inception]?","['Inception']",Sci-Fi,"['has_genre']",metaqa_1hop
+"Who starred in movies directed by [Steven Spielberg]?","['Steven_Spielberg']","Tom Hanks|Harrison Ford","['directed_by','starred_actors']",metaqa_2hop
+"What language was [Amelie] filmed in?","['Amelie']",French,"['in_language']",metaqa_1hop
+"What is the IMDB rating of [The Godfather]?","['The_Godfather']",9.2,"['has_imdb_rating']",metaqa_1hop
